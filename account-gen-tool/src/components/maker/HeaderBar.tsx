@@ -7,6 +7,7 @@ import {
   FileArchive,
   ImageIcon,
   Mic,
+  RefreshCw,
   Scissors,
   Video,
 } from "lucide-react";
@@ -16,7 +17,7 @@ export default function HeaderBar({
   onEditScript,
   status,
   onZip,
-  zipReady,
+  zipDownloading,
 }: {
   onBack: () => void;
   onEditScript: () => void;
@@ -30,7 +31,7 @@ export default function HeaderBar({
     narrationDone: boolean;
   };
   onZip: () => void;
-  zipReady: boolean;
+  zipDownloading: boolean;
 }) {
   return (
     <header className="border-b border-border bg-card sticky top-0 z-10">
@@ -96,15 +97,15 @@ export default function HeaderBar({
           {/* Right */}
           <Button
             onClick={onZip}
-            disabled={!zipReady}
+            disabled={zipDownloading}
             className="gap-2"
-            variant={zipReady ? "default" : "secondary"}
+            variant={zipDownloading ? "default" : "secondary"}
           >
             <FileArchive className="w-4 h-4" />
-            ZIP 다운로드
-            {zipReady && (
+            {zipDownloading ? "압축 중..." : "ZIP 다운로드"}
+            {zipDownloading && (
               <Badge variant="secondary" className="ml-1">
-                준비됨
+                <RefreshCw className="h-6 w-6 animate-spin text-black" />
               </Badge>
             )}
           </Button>

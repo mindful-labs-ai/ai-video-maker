@@ -1,8 +1,9 @@
-import { scenePrompt } from "@/lib/prompt";
+import { scenePrompt } from "@/lib/maker/prompt";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 

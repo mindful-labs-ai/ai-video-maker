@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export interface ImageToVideoRequest {
   image_url?: string; // 이미지 URL
   image_base64?: string; // Base64 인코딩된 이미지 start 프레임
@@ -11,14 +14,17 @@ export interface ImageToVideoRequest {
   cfg_scale?: number; // CFG 스케일
 }
 
-// API 응답 타입
-export interface ImageToVideoResponse {
-  task_id: string;
-  status: "pending" | "processing" | "completed" | "failed";
-  video_url?: string;
-  error_message?: string;
-  created_at: string;
-  estimated_time?: number;
+export interface KlingImageToVideoResponse {
+  code: number;
+  message: string;
+  request_id: string;
+  data: {
+    task_id: string;
+    task_status: string;
+    task_info: Record<string, any>;
+    created_at: number;
+    updated_at: number;
+  };
 }
 
 // 작업 상태 조회 응답
@@ -80,7 +86,7 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as KlingImageToVideoResponse;
 
     // 응답 상세 로깅
     console.log("Kling Response:", data);
